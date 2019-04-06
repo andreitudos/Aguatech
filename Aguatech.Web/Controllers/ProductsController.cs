@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Aguatech.Web.Data;
-using Aguatech.Web.Data.Entities;
-
-namespace Aguatech.Web.Controllers
+﻿namespace Aguatech.Web.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Aguatech.Web.Data;
+    using Aguatech.Web.Data.Entities;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     public class ProductsController : Controller
     {
         private readonly DataContext _context;

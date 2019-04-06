@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Aguatech.Web.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-
-namespace Aguatech.Web.Data
+﻿namespace Aguatech.Web.Data
 {
+    using Aguatech.Web.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
+
     public class DataContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
