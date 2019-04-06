@@ -27,7 +27,8 @@
 
             services.AddTransient<SeedDb>();
 
-            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IMarcaRepository, MarcaRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
