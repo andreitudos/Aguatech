@@ -1,18 +1,20 @@
 ﻿namespace Aguatech.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
-    using Aguatech.Web.Data;
-    using Aguatech.Web.Data.Entities;
+    using Data;
+    using Data.Entities;
+    using Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
+        private readonly IUserHelper userHelper;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, IUserHelper userHelper)
         {
             this.productRepository = productRepository;
+            this.userHelper = userHelper;
         }
 
         // GET: Products
@@ -53,6 +55,9 @@
         {
             if (ModelState.IsValid)
             {
+                //TODO: Change for the logged user on POST:->Create
+                product.User = await this.userHelper.GetUserByEmailAsync("andreitudos@gmail.com");
+                
                 await this.productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
@@ -87,6 +92,9 @@
             {
                 try
                 {
+                    //TODO: Change for the logged user on POST:->Edit
+                    product.User = await this.userHelper.GetUserByEmailAsync("andreitudos@gmail.com");
+
                     await this.productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
