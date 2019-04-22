@@ -45,8 +45,10 @@
 
             //Servico para Produtos
             services.AddScoped<IProductRepository, ProductRepository>();
-            //Servico para marcas
+            //Servico para Marcas
             services.AddScoped<IMarcaRepository, MarcaRepository>();
+            //Servico para Categorias
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             //Servico para Utilizadores
             services.AddScoped<IUserHelper, UserHelper>();
 
@@ -76,6 +78,7 @@
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

@@ -45,7 +45,13 @@
                 }
             }
 
-
+            //Category Seed
+            if (!this.context.Categories.Any())
+            {
+                this.addCategory("Hidraulica", "Material hidraulico, tubagens, electrobombas");
+                await this.context.SaveChangesAsync();
+            }
+            //Products Seed
             if (!this.context.Products.Any())
             {
                 this.addProduct("Electrobomba de pistcina XKP900", user);
@@ -53,6 +59,31 @@
                 this.addProduct("Motor para bomba submerssivel 400V "+ this.random.Next(1,7) + "CV", user);
                 await this.context.SaveChangesAsync();
             }
+
+            //Brands seed
+            if (!this.context.Marcas.Any())
+            {
+                this.addMarc("Pedrollo");
+                await this.context.SaveChangesAsync();
+            }
+        }
+
+        private void addMarc(string name)
+        {
+            
+            this.context.Marcas.Add(new Marca {
+                Name = name,
+            });
+        }
+
+        private void addCategory(string name , string description)
+        {
+
+            this.context.Categories.Add(new Category
+            {
+                Name = name,
+                Description = description
+            });
         }
 
         private void addProduct(string name, User user)

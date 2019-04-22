@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\images\Brands\" />
+    <Folder Include="wwwroot\images\Categories\" />
     <Folder Include="wwwroot\images\Products\" />
   </ItemGroup>
 

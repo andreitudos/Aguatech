@@ -1,14 +1,15 @@
 ﻿namespace Aguatech.Web.Controllers
 {
-    using System;
     using System.IO;
     using System.Threading.Tasks;
     using Aguatech.Web.Models;
     using Data;
     using Data.Entities;
     using Helpers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+  
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
@@ -43,6 +44,7 @@
             return View(product);
         }
 
+        [Authorize]
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -76,8 +78,8 @@
 
                 var product = this.ToProduct(view, path);
 
-                //TODO: Change for the logged user on POST:->Create
-                product.User = await this.userHelper.GetUserByEmailAsync("andreitudos@gmail.com");
+                //Guarda o nome do utilizador na criacção do produto 
+                product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 
                 await this.productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
@@ -101,6 +103,7 @@
             };
         }
 
+        [Authorize]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -135,12 +138,13 @@
             };
         }
 
+        [Authorize]
         // POST: Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductViewModel view)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,ImageUrl")] ProductViewModel view)
         {
           
             if (ModelState.IsValid)
@@ -163,11 +167,14 @@
 
                         path = $"~/images/Products/{view.ImageFile.FileName}";
                     }
-
+                    else
+                    {
+                        path = view.ImageUrl;
+                    }
                     var product = this.ToProduct(view, path);
 
-                    //TODO: Change for the logged user on POST:->Edit
-                    product.User = await this.userHelper.GetUserByEmailAsync("andreitudos@gmail.com");
+                    //Guarda o nome do utilizador na criacção do produto 
+                    product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
                     await this.productRepository.UpdateAsync(product);
                 }
@@ -187,6 +194,8 @@
             return View(view);
         }
 
+
+        [Authorize]
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
