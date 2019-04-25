@@ -2,7 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    public class Product : IEntity
+    public partial class Product : IEntity
     {
         public int Id { get; set; }
 
@@ -28,6 +28,9 @@
         public double Stock { get; set; }
 
         public User User { get; set; }
+
+        public int? CategoryId { get; set; }
+        public virtual Category Category { get; set; }
 
       
     }

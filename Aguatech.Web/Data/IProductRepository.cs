@@ -4,6 +4,7 @@
     using Aguatech.Web.Data.Entities;
     public interface IProductRepository : IGenericRepository<Product>
     {
-        IQueryable GetAllWithUser(); 
+        IQueryable GetAllWithUser();
+        IQueryable GetByCategory(string category);
     }
 }

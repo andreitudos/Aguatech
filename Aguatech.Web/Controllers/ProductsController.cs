@@ -1,5 +1,7 @@
 ﻿namespace Aguatech.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
     using Aguatech.Web.Models;
@@ -8,23 +10,32 @@
     using Helpers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
   
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
         private readonly IUserHelper userHelper;
+        private readonly ICategoryRepository categoryRepository;
 
-        public ProductsController(IProductRepository productRepository, IUserHelper userHelper)
+        public ProductsController(IProductRepository productRepository, IUserHelper userHelper, ICategoryRepository categoryRepository)
         {
             this.productRepository = productRepository;
             this.userHelper = userHelper;
+            this.categoryRepository = categoryRepository;
         }
-
-        // GET: Products
-        public IActionResult Index()
+        
+        // public IActionResult Index()
+        // {
+        //      return View(this.productRepository.GetAll()/*.OrderBy(p=>p.Name)*/);
+        //    }
+    
+        // GET: Products by categories
+        public IActionResult Index(string category)
         {
-            return View(this.productRepository.GetAll()/*.OrderBy(p=>p.Name)*/);
+            return View(this.productRepository.GetByCategory(category));
+            //return View(this.productRepository.GetAll()/*.OrderBy(p=>p.Name)*/);
         }
 
         // GET: Products/Details/5
@@ -46,9 +57,14 @@
 
         [Authorize]
         // GET: Products/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
+            
+            
+            ViewBag.CategoryID = new SelectList(this.categoryRepository.GetAll(), "Id","Name");
+
             return View();
+
         }
 
         // POST: Products/Create
@@ -56,24 +72,31 @@
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductViewModel view)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,CategoryId")] ProductViewModel view)
         {
+            
             if (ModelState.IsValid)
             {
+               //Category DropDownList
+                ViewBag.CategoryID= new SelectList(this.categoryRepository.GetAll(), "Id", null, view.CategoryId);
+       
                 //Guardar a imagem
                 var path = string.Empty;
                 if(view.ImageFile  != null && view.ImageFile.Length > 0)
                 {
+                    var guid = Guid.NewGuid().ToString();
+                    var file =$"{guid}.jpg";
+
                     path = Path.Combine(
                         Directory.GetCurrentDirectory(),
                         "wwwroot\\images\\Products",
-                        view.ImageFile.FileName);
+                        file);
                     using(var stream = new FileStream(path, FileMode.Create))
                     {
                         await view.ImageFile.CopyToAsync(stream);
                     }
 
-                    path = $"~/images/Products/{view.ImageFile.FileName}"; 
+                    path = $"~/images/Products/{file}"; 
                 }
 
                 var product = this.ToProduct(view, path);
@@ -99,7 +122,8 @@
                 Name = view.Name,
                 Price = view.Price,
                 Stock = view.Stock,
-                User = view.User
+                User = view.User,
+                CategoryId =view.CategoryId
             };
         }
 
@@ -111,8 +135,9 @@
             {
                 return NotFound();
             }
-
+         
             var product = await this.productRepository.GetByIdAsync(id.Value);
+            ViewBag.CategoryID = new SelectList(this.categoryRepository.GetAll(), "Id", "Name", product.CategoryId);
             if (product == null)
             {
                 return NotFound();
@@ -134,7 +159,9 @@
                 Name = product.Name,
                 Price = product.Price,
                 Stock = product.Stock,
-                User = product.User
+                User = product.User,
+                CategoryId = product.CategoryId
+                
             };
         }
 
@@ -144,7 +171,7 @@
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,ImageUrl")] ProductViewModel view)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,ImageUrl,CategoryId")] ProductViewModel view)
         {
           
             if (ModelState.IsValid)
@@ -155,17 +182,20 @@
 
                     if (view.ImageFile != null && view.ImageFile.Length > 0)
                     {
+                        var guid = Guid.NewGuid().ToString();
+                        var file = $"{guid}.jpg";
+
                         path = Path.Combine(
                             Directory.GetCurrentDirectory(),
                             "wwwroot\\images\\Products",
-                            view.ImageFile.FileName);
+                            file);
 
                         using (var stream = new FileStream(path, FileMode.Create))
                         {
                             await view.ImageFile.CopyToAsync(stream);
                         }
 
-                        path = $"~/images/Products/{view.ImageFile.FileName}";
+                        path = $"~/images/Products/{file}";
                     }
                     else
                     {
