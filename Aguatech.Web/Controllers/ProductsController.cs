@@ -1,7 +1,6 @@
 ﻿namespace Aguatech.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
     using Aguatech.Web.Models;
@@ -12,7 +11,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-  
+
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
@@ -25,12 +24,12 @@
             this.userHelper = userHelper;
             this.categoryRepository = categoryRepository;
         }
-        
+
         // public IActionResult Index()
         // {
         //      return View(this.productRepository.GetAll()/*.OrderBy(p=>p.Name)*/);
         //    }
-    
+
         // GET: Products by categories
         public IActionResult Index(string category)
         {
@@ -59,9 +58,9 @@
         // GET: Products/Create
         public IActionResult Create(int? id)
         {
-            
-            
-            ViewBag.CategoryID = new SelectList(this.categoryRepository.GetAll(), "Id","Name");
+
+
+            ViewBag.CategoryID = new SelectList(this.categoryRepository.GetAll(), "Id", "Name");
 
             return View();
 
@@ -74,36 +73,36 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,CategoryId")] ProductViewModel view)
         {
-            
+
             if (ModelState.IsValid)
             {
-               //Category DropDownList
-                ViewBag.CategoryID= new SelectList(this.categoryRepository.GetAll(), "Id", null, view.CategoryId);
-       
+                //Category DropDownList
+                ViewBag.CategoryId = new SelectList(this.categoryRepository.GetAll(), "Id", null, view.CategoryId);
+
                 //Guardar a imagem
                 var path = string.Empty;
-                if(view.ImageFile  != null && view.ImageFile.Length > 0)
+                if (view.ImageFile != null && view.ImageFile.Length > 0)
                 {
                     var guid = Guid.NewGuid().ToString();
-                    var file =$"{guid}.jpg";
+                    var file = $"{guid}.jpg";
 
                     path = Path.Combine(
                         Directory.GetCurrentDirectory(),
                         "wwwroot\\images\\Products",
                         file);
-                    using(var stream = new FileStream(path, FileMode.Create))
+                    using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await view.ImageFile.CopyToAsync(stream);
                     }
 
-                    path = $"~/images/Products/{file}"; 
+                    path = $"~/images/Products/{file}";
                 }
 
                 var product = this.ToProduct(view, path);
 
                 //Guarda o nome do utilizador na criacção do produto 
                 product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                
+
                 await this.productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
@@ -123,7 +122,7 @@
                 Price = view.Price,
                 Stock = view.Stock,
                 User = view.User,
-                CategoryId =view.CategoryId
+                CategoryId = view.CategoryId
             };
         }
 
@@ -135,9 +134,9 @@
             {
                 return NotFound();
             }
-         
+
             var product = await this.productRepository.GetByIdAsync(id.Value);
-            ViewBag.CategoryID = new SelectList(this.categoryRepository.GetAll(), "Id", "Name", product.CategoryId);
+            ViewBag.CategoryId = new SelectList(this.categoryRepository.GetAll(), "Id", "Name", product.CategoryId);
             if (product == null)
             {
                 return NotFound();
@@ -161,7 +160,7 @@
                 Stock = product.Stock,
                 User = product.User,
                 CategoryId = product.CategoryId
-                
+
             };
         }
 
@@ -173,7 +172,7 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,ImageUrl,CategoryId")] ProductViewModel view)
         {
-          
+
             if (ModelState.IsValid)
             {
                 try
@@ -182,30 +181,29 @@
 
                     if (view.ImageFile != null && view.ImageFile.Length > 0)
                     {
-                        var guid = Guid.NewGuid().ToString();
-                        var file = $"{guid}.jpg";
+                        path = string.Empty;
 
-                        path = Path.Combine(
-                            Directory.GetCurrentDirectory(),
-                            "wwwroot\\images\\Products",
-                            file);
-
-                        using (var stream = new FileStream(path, FileMode.Create))
+                        if (view.ImageFile != null && view.ImageFile.Length > 0)
                         {
-                            await view.ImageFile.CopyToAsync(stream);
-                        }
+                            var guid = Guid.NewGuid().ToString();
+                            var file = $"{guid}.jpg";
 
-                        path = $"~/images/Products/{file}";
-                    }
-                    else
-                    {
-                        path = view.ImageUrl;
+                            path = Path.Combine(
+                                Directory.GetCurrentDirectory(),
+                                "wwwroot\\images\\Products",
+                                file);
+
+                            using (var stream = new FileStream(path, FileMode.Create))
+                            {
+                                await view.ImageFile.CopyToAsync(stream);
+                            }
+
+                            path = $"~/images/Products/{file}";
+                        }
                     }
                     var product = this.ToProduct(view, path);
 
-                    //Guarda o nome do utilizador na criacção do produto 
                     product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-
                     await this.productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -235,7 +233,7 @@
             }
 
             var product = await this.productRepository.GetByIdAsync(id.Value);
-                
+
             if (product == null)
             {
                 return NotFound();
@@ -253,6 +251,6 @@
             await this.productRepository.DeleteAsync(product);
             return RedirectToAction(nameof(Index));
         }
-                
+
     }
 }

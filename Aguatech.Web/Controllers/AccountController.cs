@@ -1,6 +1,5 @@
 ﻿namespace Aguatech.Web.Controllers
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Aguatech.Web.Data.Entities;

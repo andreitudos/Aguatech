@@ -19,6 +19,25 @@ namespace Aguatech.Web.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("SupplierId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("Brand");
+                });
+
             modelBuilder.Entity("Aguatech.Web.Data.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -39,6 +58,94 @@ namespace Aguatech.Web.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Simbol");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currencies");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("CustomerTypeId");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<int>("DocumentTypeId");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerTypeId");
+
+                    b.HasIndex("DocumentTypeId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.CustomerType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("DiscountRate");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerType");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.DocumentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentTypes");
+                });
+
             modelBuilder.Entity("Aguatech.Web.Data.Entities.Marca", b =>
                 {
                     b.Property<int>("Id")
@@ -52,6 +159,52 @@ namespace Aguatech.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Marcas");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CustomerID");
+
+                    b.Property<DateTime>("DataOrder");
+
+                    b.Property<int>("OrderStatus");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<int>("OrderID");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<int>("ProductID");
+
+                    b.Property<float>("Quantity");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("Aguatech.Web.Data.Entities.Product", b =>
@@ -88,6 +241,67 @@ namespace Aguatech.Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.Supplier", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("ContactFirstName")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("ContactLastName")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Fax")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("VAT")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Supplier");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.SupplierProduct", b =>
+                {
+                    b.Property<int>("SupplierProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProductID");
+
+                    b.Property<int>("SupplierID");
+
+                    b.HasKey("SupplierProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("SupplierID");
+
+                    b.ToTable("SupplierProduct");
                 });
 
             modelBuilder.Entity("Aguatech.Web.Data.Entities.User", b =>
@@ -255,6 +469,46 @@ namespace Aguatech.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.Brand", b =>
+                {
+                    b.HasOne("Aguatech.Web.Data.Entities.Supplier")
+                        .WithMany("Brands")
+                        .HasForeignKey("SupplierId");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.Customer", b =>
+                {
+                    b.HasOne("Aguatech.Web.Data.Entities.CustomerType", "Type")
+                        .WithMany("Customers")
+                        .HasForeignKey("CustomerTypeId");
+
+                    b.HasOne("Aguatech.Web.Data.Entities.DocumentType", "DocumentType")
+                        .WithMany("Customers")
+                        .HasForeignKey("DocumentTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.Order", b =>
+                {
+                    b.HasOne("Aguatech.Web.Data.Entities.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.OrderDetail", b =>
+                {
+                    b.HasOne("Aguatech.Web.Data.Entities.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Aguatech.Web.Data.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("Aguatech.Web.Data.Entities.Product", b =>
                 {
                     b.HasOne("Aguatech.Web.Data.Entities.Category", "Category")
@@ -264,6 +518,19 @@ namespace Aguatech.Web.Migrations
                     b.HasOne("Aguatech.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.SupplierProduct", b =>
+                {
+                    b.HasOne("Aguatech.Web.Data.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Aguatech.Web.Data.Entities.Supplier", "Supplier")
+                        .WithMany("SupplierProducts")
+                        .HasForeignKey("SupplierID")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,6 +1,5 @@
 ﻿namespace Aguatech.Web.Data
 {
-    using System;
     using System.Linq;
     using Aguatech.Web.Data.Entities;
     using Microsoft.EntityFrameworkCore;

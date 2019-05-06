@@ -2,6 +2,8 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Product : IEntity
     {
         public int Id { get; set; }
@@ -30,6 +32,7 @@
         public User User { get; set; }
 
         public int? CategoryId { get; set; }
+ 
         public virtual Category Category { get; set; }
 
       

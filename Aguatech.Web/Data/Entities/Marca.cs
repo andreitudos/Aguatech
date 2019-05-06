@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Aguatech.Web.Data.Entities
+﻿namespace Aguatech.Web.Data.Entities
 {
+    using System.ComponentModel.DataAnnotations;
     public class Marca : IEntity
     {
         public int Id { get; set; }

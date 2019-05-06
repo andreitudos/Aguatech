@@ -1,5 +1,3 @@
-using System;
-
 namespace Aguatech.Web.Models
 {
     public class ErrorViewModel

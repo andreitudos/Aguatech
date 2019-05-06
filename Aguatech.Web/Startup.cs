@@ -1,5 +1,6 @@
 ﻿namespace Aguatech.Web
 {
+    using System.Text;
     using Data;
     using Data.Entities;
     using Helpers;
@@ -11,6 +12,8 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.IdentityModel.Tokens;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -36,13 +39,38 @@
             })
             .AddEntityFrameworkStores<DataContext>();
 
-            services.AddDbContext<DataContext>(cfg => {
+            services.AddAuthentication()
+        .AddCookie()
+        .AddJwtBearer(cfg =>
+        {
+            cfg.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidIssuer = this.Configuration["Tokens:Issuer"],
+                ValidAudience = this.Configuration["Tokens:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
+            };
+        });
+
+            services.AddDbContext<DataContext>(cfg =>
+            {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
 
             services.AddTransient<SeedDb>();
-
+            //Servico CustomerType
+            services.AddScoped<ICustomerTypeRepository, CustomerTypeRepository>();
+            //Servico Currency
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            //Servico Brands
+            services.AddScoped<IBrandRepository, BrandRepository>();
+            //Servico Suppliers
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            //Servico DocumentType
+            services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+            //Servico Customers
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             //Servico para Produtos
             services.AddScoped<IProductRepository, ProductRepository>();
             //Servico para Marcas

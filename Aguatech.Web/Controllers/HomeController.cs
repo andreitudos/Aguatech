@@ -3,7 +3,6 @@ namespace Aguatech.Web.Controllers
 {
     using System.Diagnostics;
     using Aguatech.Web.Models;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : Controller

@@ -1,6 +1,5 @@
 ﻿namespace Aguatech.Web.Controllers
 {
-    using System;
     using System.IO;
     using System.Threading.Tasks;
     using Aguatech.Web.Data;
@@ -8,7 +7,6 @@
     using Aguatech.Web.Helpers;
     using Aguatech.Web.Models;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     public class MarcasController : Controller
     {

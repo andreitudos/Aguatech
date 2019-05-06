@@ -8,6 +8,11 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/StyleSheet.css" />
+        <link rel="stylesheet" href="~/css/Skins.css" />
+        <link rel="stylesheet" href="~/css/icons.min.css" />
+        <link rel="stylesheet" href="~/font-awesome/css/font-awesome.min.css">
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -33,9 +38,16 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                    <li><a asp-area="" asp-controller="Categories" asp-action="Index"><i class="fa fa-object-group"></i>Categories</a></li>
                     <li><a asp-area="" asp-controller="Products" asp-action="Index">Products</a></li>
                     <li><a asp-area="" asp-controller="Marcas" asp-action="Index">Marcas</a></li>
+                    <li><a asp-area="" asp-controller="CustomerTypes" asp-action="Index"><i class="fa fa-gear"></i>Customer Types</a></li>
+                    <li><a asp-area="" asp-controller="Customers" asp-action="Index"><i class="fa fa-building-o"></i>Customers</a></li>
+                    <li><a asp-area="" asp-controller="DocumentTypes" asp-action="Index">Documents</a></li>
+                    <li><a asp-area="" asp-controller="Suppliers" asp-action="Index"><i class="fa fa-first-order"></i>Suppliers</a></li>
+                    <li><a asp-area="" asp-controller="Currencies" asp-action="Index"><i class="fa fa-dollar"></i>Curriency</a></li>
+                    <li><a asp-area="" asp-controller="Brands" asp-action="Index">Brands</a></li>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (this.User.Identity.IsAuthenticated)
@@ -56,6 +68,7 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
+    
         @RenderBody()
         <hr />
         <footer>

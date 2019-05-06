@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Aguatech.Web.Models;
+using Aguatech.Web.Data.Entities;
 namespace Aguatech.Web.Data
 {
     using System.Linq;
@@ -9,9 +10,14 @@ namespace Aguatech.Web.Data
 
     public class DataContext : IdentityDbContext<User>
     {
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Marca> Marcas { get; set; }
+        public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Marca> Marcas { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Product> Products { get; set; }
+        
        
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -38,6 +44,12 @@ namespace Aguatech.Web.Data
 
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<Aguatech.Web.Data.Entities.Brand> Brand { get; set; }
+
+        public DbSet<Aguatech.Web.Data.Entities.Supplier> Supplier { get; set; }
+
+        public DbSet<Aguatech.Web.Data.Entities.CustomerType> CustomerType { get; set; }
             
     }
 }
