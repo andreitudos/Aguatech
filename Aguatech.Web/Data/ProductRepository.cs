@@ -1,6 +1,7 @@
 ﻿namespace Aguatech.Web.Data
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using Aguatech.Web.Data.Entities;
     using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,10 @@
         public IQueryable GetByCategory(string category)
         {
             return this.context.Products.Where(c=>c.Category.Name==category);
+        }
+        public IQueryable GetByBarcode(string barcode)
+        {
+            return  this.context.Products.Where(b => b.Barcode == barcode);
         }
     }
 }

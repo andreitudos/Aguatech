@@ -14,13 +14,15 @@ namespace Aguatech.Web.Data.Entities
 
         public int CustomerID { get; set; }
 
-        public OrderStatus OrderStatus { get; set; }
-
         public virtual Customer Customer { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
+        public int? OrderStatusId { get; set; }
+
+        public virtual OrderStatus OrderStatus { get; set; }
+
         [NotMapped]
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Name { get; set; }
     }
 }

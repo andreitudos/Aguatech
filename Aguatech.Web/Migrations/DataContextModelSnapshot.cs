@@ -171,11 +171,13 @@ namespace Aguatech.Web.Migrations
 
                     b.Property<DateTime>("DataOrder");
 
-                    b.Property<int>("OrderStatus");
+                    b.Property<int?>("OrderStatusId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerID");
+
+                    b.HasIndex("OrderStatusId");
 
                     b.ToTable("Orders");
                 });
@@ -207,11 +209,26 @@ namespace Aguatech.Web.Migrations
                     b.ToTable("OrderDetail");
                 });
 
+            modelBuilder.Entity("Aguatech.Web.Data.Entities.OrderStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatus");
+                });
+
             modelBuilder.Entity("Aguatech.Web.Data.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Barcode");
 
                     b.Property<int?>("CategoryId");
 
@@ -494,6 +511,10 @@ namespace Aguatech.Web.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Aguatech.Web.Data.Entities.OrderStatus", "OrderStatus")
+                        .WithMany("Order")
+                        .HasForeignKey("OrderStatusId");
                 });
 
             modelBuilder.Entity("Aguatech.Web.Data.Entities.OrderDetail", b =>

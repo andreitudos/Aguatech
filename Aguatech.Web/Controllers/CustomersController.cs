@@ -59,6 +59,7 @@ namespace Aguatech.Web.Controllers
         public IActionResult Create()
         {
             ViewBag.DocumentTypeId = new SelectList(this.documentTypeRepository.GetAll(), "Id", "Name");
+            ViewBag.CustomerTypeId = new SelectList(this.customerTypeRepository.GetAll(), "Id", "Name");
 
             return View();
         }

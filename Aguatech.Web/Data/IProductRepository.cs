@@ -6,5 +6,6 @@
     {
         IQueryable GetAllWithUser();
         IQueryable GetByCategory(string category);
+        IQueryable GetByBarcode(string barcode);
     }
 }

@@ -37,6 +37,8 @@
             //return View(this.productRepository.GetAll()/*.OrderBy(p=>p.Name)*/);
         }
 
+       
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -71,7 +73,7 @@
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,CategoryId")] ProductViewModel view)
+        public async Task<IActionResult> Create([Bind("Id,Barcode,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,CategoryId")] ProductViewModel view)
         {
 
             if (ModelState.IsValid)
@@ -114,6 +116,7 @@
             return new Product
             {
                 Id = view.Id,
+                Barcode =view.Barcode,
                 ImageUrl = path,
                 IsAvailable = view.IsAvailable,
                 LastPurchase = view.LastPurchase,
@@ -151,6 +154,7 @@
             return new ProductViewModel
             {
                 Id = product.Id,
+                Barcode = product.Barcode,
                 ImageUrl = product.ImageUrl,
                 IsAvailable = product.IsAvailable,
                 LastPurchase = product.LastPurchase,
@@ -170,7 +174,7 @@
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,ImageUrl,CategoryId")] ProductViewModel view)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Barcode,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock,ImageUrl,CategoryId")] ProductViewModel view)
         {
 
             if (ModelState.IsValid)

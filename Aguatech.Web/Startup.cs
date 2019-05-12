@@ -59,6 +59,12 @@
 
 
             services.AddTransient<SeedDb>();
+            //Service OrderStatus
+            services.AddScoped<IOrderStatusRepository, OrderStatusRepository>();
+            //Service ProductOrder
+            services.AddScoped<IProductOrderReposotory, ProductOrderRepository>();
+            //Order Service
+            services.AddScoped<IOrderRepository, OrderRepository>();
             //Servico CustomerType
             services.AddScoped<ICustomerTypeRepository, CustomerTypeRepository>();
             //Servico Currency

@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Aguatech.Web.Data.Entities
 {
-    public enum OrderStatus
+    public class OrderStatus : IEntity
     {
-        Created,
-        InProgress,
-        Shipped,
-        Delivered
+        public int Id { get; set; }
+        [Display(Name = "Description")]
+        public string Name { get; set; }
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

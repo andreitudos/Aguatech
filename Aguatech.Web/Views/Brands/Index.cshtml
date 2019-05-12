@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.ImageUrl)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></a>
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span></a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
             </td>
         </tr>
 }

@@ -50,6 +50,8 @@ namespace Aguatech.Web.Data
         public DbSet<Aguatech.Web.Data.Entities.Supplier> Supplier { get; set; }
 
         public DbSet<Aguatech.Web.Data.Entities.CustomerType> CustomerType { get; set; }
+
+        public DbSet<Aguatech.Web.Data.Entities.OrderStatus> OrderStatus { get; set; }
             
     }
 }

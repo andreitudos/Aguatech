@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Aguatech.Web.Data.Entities
+﻿namespace Aguatech.Web.Data.Entities
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class OrderDetail : IEntity
     {
     
@@ -37,6 +33,6 @@ namespace Aguatech.Web.Data.Entities
         public virtual Product Product { get; set; }
 
         [NotMapped]
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Name { get; set; }
     }
 }

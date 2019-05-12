@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Aguatech.Web.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-
-namespace Aguatech.Web.Data
+﻿namespace Aguatech.Web.Data
 {
+    using Aguatech.Web.Data.Entities;
+
     public class CustomerRepository : GenericRepository<Customer>, ICustomerRepository
     {
         private readonly DataContext context;

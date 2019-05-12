@@ -7,6 +7,9 @@
     public partial class Product : IEntity
     {
         public int Id { get; set; }
+      
+        [Display(Name = "Barcode")]
+        public string Barcode { get; set; }
 
         [MaxLength(50,ErrorMessage ="The field {0} only can contain {1} charcaters length!")]
         [Required]
